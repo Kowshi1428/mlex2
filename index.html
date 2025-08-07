@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>HK Royals</title>
+  <!-- Leaflet CSS (needed for map styling) -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <style>
+    /* Optional styling for the active image highlight */
+    img.active {
+      outline: 3px solid orange;
+    }
+  </style>
+</head>
+<body style="background-color: #FADADD;">  <!-- baby pink -->
+
+  <header style="text-align: center; margin-bottom: 20px; background-color: #FFF9F7; padding: 10px;"> <!-- milk -->
+    <h1>HK ROYALS</h1>
+    <button id="logoutBtn" style="padding: 5px 15px; cursor: pointer;">Logout</button>
+  </header>
+
+  <main style="background-color: #FFF9F7; padding: 20px 0;">  <!-- milk -->
+
+    <!-- Product list -->
+    <section aria-label="Products" role="list" style="background-color: #FFF9F7; padding: 15px 0;">
+      <table align="center" cellpadding="10" cellspacing="0" border="1" style="border-collapse: collapse; background-color: #FFF9F7;">
+        <tbody>
+          <tr>
+            <td>
+              <img src="gt650.jpeg" alt="GT 650" draggable="true" id="gt" onclick="highlight(this)" ondragstart="drag(event)" width="200" />
+              <p><strong>GT 650</strong></p>
+            </td>
+            <td>
+              <img src="interceptor.jfif" alt="Interceptor" draggable="true" id="int" onclick="highlight(this)" ondragstart="drag(event)" width="200" />
+              <p><strong>Interceptor</strong></p>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- Cart section -->
+    <section id="cart" aria-label="Shopping Cart" ondrop="drop(event)" ondragover="allowDrop(event)"
+      style="width: 90%; margin: 30px auto; border: 3px dashed black; min-height: 100px; text-align: center; background-color: #FFF9F7;">
+      <strong>Drop your selected products here</strong>
+    </section>
+
+    <!-- Leaflet Map section -->
+    <section aria-label="Map" style="width: 90%; margin: 30px auto; background-color: #FFF9F7; padding: 10px; border-radius: 8px;">
+      <div id="map" style="height: 350px; border: 3px solid black;"></div>
+    </section>
+
+    <!-- Media section -->
+    <section class="media-section" aria-label="Product Demo" style="text-align: center; margin-top: 30px; background-color: #FFF9F7; padding: 15px 0; border-radius: 8px;">
+      <h2>Product Demo</h2>
+      <video width="320" height="240" controls>
+        <source src="re.mp4" type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
+      <br />
+      <audio controls>
+        <source src="re.mp3" type="audio/mpeg" />
+        Your browser does not support the audio element.
+      </audio>
+    </section>
+
+    <!-- Interactive Image Map with coordinate display -->
+    <section aria-label="Image Map" style="text-align: center; margin-top: 30px; background-color: #FFF9F7; padding: 20px; border-radius: 8px;">
+      <h2>Interactive Map Image</h2>
+      <img
+        id="interactiveMap"
+        src="map.jpeg"
+        alt="Map Image"
+        usemap="#imagemap"
+        width="600"
+        style="cursor:pointer;"
+      />
+
+      <map name="imagemap">
+        <!-- Adjust circle coords here -->
+        <area
+          shape="circle"
+          coords="300,150,50"
+          alt="Blue Circle"
+          href="nextpage.html"
+          title="Go to next page"
+        />
+      </map>
+
+      <p id="coordsDisplay" style="margin-top: 10px; font-weight: bold;"></p>
+    </section>
+
+  </main>
+
+  <!-- Leaflet JS -->
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script>
+    // Map setup
+    const map = L.map('map').setView([11.0168, 76.9558], 13);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19,
+    }).addTo(map);
+
+    navigator.geolocation.getCurrentPosition(function(position) {
+      const lat = position.coords.latitude;
+      const lon = position.coords.longitude;
+      map.setView([lat, lon], 13);
+      L.marker([lat, lon]).addTo(map).bindPopup("You are here!").openPopup();
+    });
+
+    let clickMarker;
+    map.on('click', function(e) {
+      if (clickMarker) map.removeLayer(clickMarker);
+      const lat = e.latlng.lat.toFixed(4);
+      const lon = e.latlng.lng.toFixed(4);
+      clickMarker = L.marker([lat, lon]).addTo(map)
+        .bindPopup("Clicked Location<br>Lat: " + lat + "<br>Lon: " + lon).openPopup();
+    });
+
+    // Highlight product
+    function highlight(img) {
+      document.querySelectorAll('img').forEach(el => el.classList.remove('active'));
+      img.classList.add('active');
+    }
+
+    // Drag and drop handlers
+    function allowDrop(ev) {
+      ev.preventDefault();
+    }
+
+    function drag(ev) {
+      ev.dataTransfer.setData("text", ev.target.id);
+    }
+
+    function drop(ev) {
+      ev.preventDefault();
+      var data = ev.dataTransfer.getData("text");
+      var item = document.getElementById(data).cloneNode(true);
+      item.removeAttribute('id'); // prevent ID conflicts
+      ev.target.appendChild(item);
+    }
+
+    // Logout button handler
+    document.getElementById('logoutBtn').addEventListener('click', function() {
+      window.location.href = 'login.html';
+    });
+
+    // Interactive Map Image click to show coordinates
+    const img = document.getElementById('interactiveMap');
+    const coordsDisplay = document.getElementById('coordsDisplay');
+
+    img.addEventListener('click', function(event) {
+      const rect = img.getBoundingClientRect();
+      const x = event.clientX - rect.left;
+      const y = event.clientY - rect.top;
+      coordsDisplay.textContent = `Clicked at X: ${Math.round(x)}, Y: ${Math.round(y)}`;
+    });
+  </script>
+
+</body>
+</html>

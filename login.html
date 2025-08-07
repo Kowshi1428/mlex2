@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Login</title>
+</head>
+<body style="background-color: skyblue;">
+
+  <h1 style="text-align:center; color: white; margin-top: 40px;">Login</h1>
+
+  <form style="width: 320px; margin: 30px auto; background-color: white; padding: 25px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1);">
+    <label for="username" style="font-weight: bold;">Username:</label><br />
+    <input type="text" id="username" name="username" required style="width: 100%; padding: 8px; margin-top: 5px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 4px;" /><br />
+    
+    <label for="password" style="font-weight: bold;">Password:</label><br />
+    <input type="password" id="password" name="password" required style="width: 100%; padding: 8px; margin-top: 5px; margin-bottom: 20px; border: 1px solid #ccc; border-radius: 4px;" /><br />
+    
+    <button type="submit" style="width: 100%; padding: 10px; background-color: #ff69b4; color: white; font-weight: bold; border: none; border-radius: 6px; cursor: pointer;">
+      Login
+    </button>
+  </form>
+
+  <p style="text-align:center; color: white; margin-top: 20px;">
+    Don't have an account? <a href="signup.html" style="color: #fff0f6; text-decoration: underline;">Sign up here</a>
+  </p>
+
+  <script>
+    document.querySelector('form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      alert('Login successful!');
+      window.location.href = 'index.html';
+    });
+  </script>
+
+</body>
+</html>

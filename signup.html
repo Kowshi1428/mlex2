@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Sign Up</title>
+</head>
+<body style="background: linear-gradient(135deg, #fceabb, #f8b500); font-family: Arial, sans-serif;">
+
+  <h1 style="text-align:center; color: #4a2c00; margin-top: 40px;">Sign Up</h1>
+
+  <form id="signupForm" style="width: 320px; margin: 30px auto; background-color: #fff3d1; padding: 25px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+    
+    <label for="username" style="font-weight: 600; color: #7a5500;">Username:</label><br />
+    <input type="text" id="username" name="username" required
+           style="width: 100%; padding: 8px; margin-top: 6px; margin-bottom: 16px; border: 1.5px solid #f8b500; border-radius: 6px; font-size: 16px;" />
+    
+    <label for="email" style="font-weight: 600; color: #7a5500;">Email:</label><br />
+    <input type="email" id="email" name="email" required
+           style="width: 100%; padding: 8px; margin-top: 6px; margin-bottom: 16px; border: 1.5px solid #f8b500; border-radius: 6px; font-size: 16px;" />
+    
+    <label for="password" style="font-weight: 600; color: #7a5500;">Password:</label><br />
+    <input type="password" id="password" name="password" required
+           style="width: 100%; padding: 8px; margin-top: 6px; margin-bottom: 16px; border: 1.5px solid #f8b500; border-radius: 6px; font-size: 16px;" />
+    
+    <label for="confirm-password" style="font-weight: 600; color: #7a5500;">Confirm Password:</label><br />
+    <input type="password" id="confirm-password" name="confirm-password" required
+           style="width: 100%; padding: 8px; margin-top: 6px; margin-bottom: 24px; border: 1.5px solid #f8b500; border-radius: 6px; font-size: 16px;" />
+    
+    <button type="submit" style="width: 100%; padding: 12px; background-color: #f8b500; border: none; border-radius: 8px; font-size: 18px; font-weight: 700; color: #4a2c00; cursor: pointer;">
+      Sign Up
+    </button>
+    
+  </form>
+
+  <script>
+    document.getElementById('signupForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      // Optional: validate passwords match before redirecting
+      const pwd = document.getElementById('password').value;
+      const cpwd = document.getElementById('confirm-password').value;
+      if (pwd !== cpwd) {
+        alert('Passwords do not match!');
+        return;
+      }
+
+      alert('Sign Up successful! Redirecting to Login page...');
+      window.location.href = 'login.html';  // redirect to login page
+    });
+  </script>
+
+</body>
+</html>
